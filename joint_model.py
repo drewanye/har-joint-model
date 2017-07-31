@@ -106,6 +106,7 @@ class JointModel:
 
             self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.Y, logits=pred_y_c))
             self.train_step = tf.train.AdamOptimizer(1e-4).minimize(self.cross_entropy)
+            self.confusion_matrix = tf.confusion_matrix(tf.argmax(self.Y, 1), tf.argmax(pred_y_c, 1), num_classes=4)
             correct_prediction_c = tf.equal(tf.argmax(self.Y, 1), tf.argmax(pred_y_c, 1))
             self.accuracy = tf.reduce_mean(tf.cast(correct_prediction_c, tf.float32))
         self.train_steps.append(self.train_step)
@@ -127,7 +128,7 @@ class JointModel:
                                  self.Y2: y_strain_s[start:end]
                                         })
                 if i%30==0:
-                    accs, lss = sess.run([self.accuracies, self.losses],
+                    accs, lss, cf_matrix = sess.run([self.accuracies, self.losses, self.confusion_matrix],
                              feed_dict={
                                  self.X: x_test,
                                  self.Y: y_test,
@@ -139,6 +140,7 @@ class JointModel:
                     print("-----Complex Activity-----")
                     print("acurracy:{}".format(accs[-1]))
                     print("losses:{}".format(lss[-1]))
+                    print("confusion matrix:\n {}".format(cf_matrix))
 
     # def build_model(self):
     #     x_serie_c = tf.reshape(self.X, [-1, 30, 40, 6])
