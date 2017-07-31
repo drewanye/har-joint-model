@@ -59,7 +59,9 @@ class JointModel:
     def build_model(self):
         x_serie_c = tf.reshape(self.X, [-1, 15, 50, 12])
         xs_s = tf.split(x_serie_c, num_or_size_splits=15, axis=1)
+        #xs_s = tf.split(1, 15, x_serie_c)
         ys_s = tf.split(self.Y2, num_or_size_splits=15, axis=1)
+        #ys_s = tf.split(1, 15, self.Y2)
         concat_outputs = []
         self.losses = []
         self.train_steps = []
@@ -115,7 +117,7 @@ class JointModel:
         batch_size = self.batch_size
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
-            for i in range(301):
+            for i in range(3001):
                 for start, end in zip(range(0, train_size, batch_size),
                                       range(batch_size, train_size+1,  batch_size)):
                     sess.run([self.train_step_s, self.train_step],
