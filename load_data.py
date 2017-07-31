@@ -22,9 +22,9 @@ X_INPUT_PATHS = [DATASET_PATH + X_file_name.format(i+1) for i in range(DAYS)]
 YS_INPUT_PATHS = [DATASET_PATH + YS_file_name.format(i+1) for i in range(DAYS)]
 YC_INPUT_PATHS = [DATASET_PATH + YC_file_name.format(i+1) for i in range(DAYS)]
 
-def one_hot(y_):
+def one_hot(y_, n_values):
     #y_ = y_.reshape(len(y_))
-    n_values = int(np.max(y_))+1
+    # n_values = int(np.max(y_))+1
     return np.eye(n_values)[np.array(y_, dtype=np.int32)]
 
 def load_X(inputs):
@@ -44,7 +44,7 @@ def load_YS(inputs):
                 if count % 50 == 0:
                     res.append(s_labels_index.index(int(r.strip())))
                 count += 1
-    return one_hot(res)
+    return one_hot(res, 23)
 
 def load_YC(inputs):
     res = []
@@ -55,7 +55,7 @@ def load_YC(inputs):
                 if count % 750 == 0:
                     res.append(int(r.strip())-1)
                 count += 1
-    return one_hot(res)
+    return one_hot(res, 4)
 
 
 
@@ -82,6 +82,21 @@ def split_train_test(x, ys, yc):
             ys_train = np.concatenate((ys_train, b), axis=0)
             yc_train = np.concatenate((yc_train, c), axis=0)
         count += 1
+    return x_train, ys_train, yc_train, x_test, ys_test, yc_test
+
+def get_train_test(test_day, x_inputs, ys_inputs, yc_inputs):
+    x_test = load_X([x_inputs[test_day]])
+    ys_test = load_YS([ys_inputs[test_day]])
+    ys_test = np.reshape(ys_test, (len(ys_test)/15, 15, 23))
+    yc_test = load_YC([yc_inputs[test_day]])
+    del(x_inputs[test_day])
+    del(ys_inputs[test_day])
+    del(yc_inputs[test_day])
+    x_train = load_X(x_inputs)
+    ys_train = load_YS(ys_inputs)
+    ys_train = np.reshape(ys_train, (len(ys_train)/15, 15, 23))
+    yc_train = load_YC(yc_inputs)
+
     return x_train, ys_train, yc_train, x_test, ys_test, yc_test
 
 # test
