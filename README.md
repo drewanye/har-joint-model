@@ -4,8 +4,8 @@
 In activity recognition, simple and complex activity recognition are a pair of related tasks. Simple acitvities are usually characterized by repeated and low-level actions, e.g., runing, sitting, and walking. Compared to simple activities, complex activities are more complicated and high-level  activities like working, having dinner, commuting. And a complex activity may include several low-level simple activities. For instance, having dinner, a kind of complex activity, can include standing and walking to select food and sitting at the table to eat, the simple activities. In other words, simple activities can be regarded as the components of complex activity. In our model called AROMA, we use multi-task learning to recognize simple and complex activities simultaneously by using a shared representation to improve generalization and accuracy of the model.(Our paper "AROMA: A deep multi-task learning based simple and complex activity recognition method using wearable sensors" has been submitted into 2017 AAAI)
 
 ## Methodology
-Our model AROMA recognizes simple and complex activities simultaneously. It divides raw sensor data to fixed length time windows. Since complex activities usually last for a longer duration than simple activities, each complex activity sample contains multiple simple activity samples. For each simple activity sample, AROMA utilizes a CNN to extract deep features, which are inputted into a simple activity classifier directly. For each complex activity sample, apart from CNN, AROMA also applies a LSTM network to learn the temporal context of activity data. Simple and complex activity recognition are two tasks in this work. The two tasks have the same input and share representations (the red squares in Figure 1).
-![Figure 1](https://github.com/drewanye/har-joint-model/blob/master/diagram/har-joint-model.png "Figure 1")
+Our model AROMA recognizes simple and complex activities simultaneously. It divides raw sensor data to fixed length time windows. Since complex activities usually last for a longer duration than simple activities, each complex activity sample contains multiple simple activity samples. For each simple activity sample, AROMA utilizes a CNN to extract deep features, which are inputted into a simple activity classifier directly. For each complex activity sample, apart from CNN, AROMA also applies a LSTM network to learn the temporal context of activity data. Simple and complex activity recognition are two tasks in this work. The two tasks have the same input and share representations (the red squares):
+![Figure 1](https://github.com/drewanye/har-joint-model/blob/master/diagram/har-joint-model.png)
 
 ### Definition
 ![definition](https://github.com/drewanye/har-joint-model/blob/master/diagram/definition.png)
@@ -40,8 +40,9 @@ complex activities as the same as AROMA.
 <li>STL. STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
 <li>DCNN. DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
 <li>DeepConvLSTM. DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-<li>TM. TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). Figure 3 shows recognition accuracies of these models and ours:
-![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png "Figure 3")
+<li>TM. TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). 
+The recognition accuracies of these models and ours:
+![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png)
 
 ## The structure of the project
 <li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
@@ -62,7 +63,6 @@ optional arguments:
   --test TEST        select the test day. Max num is 6
   --version VERSION  model version
   --gpu GPU          assign task to selected gpu
-
 ```
 
 For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset
