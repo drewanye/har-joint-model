@@ -4,6 +4,7 @@ In activity recognition, simple and complex activity recognition are a pair of r
 
 ## Methodology
 Our model recognizes simple and complex activities simultaneously. Our model divides raw sensor data to fixed length time windows. Since complex activities usually last for a longer duration than simple activities, each complex activity sample contains multiple simple activity samples. For each simple activity sample, AROMA utilizes a CNN to extract deep features, which are inputted into a simple activity classifier directly. For each complex activity sample, apart from CNN, AROMA also applies a LSTM network to learn the temporal context of activity data. Simple and complex activity recognition are two tasks in this work. The two tasks have the same input and share representations (the red squares in Figure 1).
+![Figure 1](https://github.com/drewanye/har-joint-model/blob/master/diagram/har-joint-model.png)
 
 ### Definition
 1. A window is a three-tuple $win = (X, t_s, t_e)$, where $X$ denotes the sensor data, $t_s$ and $t_e$ are the starting and ending time of the window respectively.
@@ -43,7 +44,11 @@ complex activities as the same as AROMA.
 **STL.** STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
 **DCNN.** DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
 **DeepConvLSTM.** DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). TM firstly recognizes simple activities using a Naive Bayes based classifier. In this way, TM can obtain $l_c⁄l_s$ words for each document, and form a document-word matrix. Then TM applies a LDA topic model on this document-word matrix to learn a document-topic matrix, which shows the topic distributions of all documents. These topic distributions are the underlying features of complex activities. The number of topics are set to 10 according to Huynh, Fritz, and Schiele (2008).
+**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). TM firstly recognizes simple activities using a Naive Bayes based classifier. In this way, TM can obtain $l_c⁄l_s$ words for each document, and form a document-word matrix. Then TM applies a LDA topic model on this document-word matrix to learn a document-topic matrix, which shows the topic distributions of all documents.
+
+### How to run the code?
+The project structure:
+
 
 
 
