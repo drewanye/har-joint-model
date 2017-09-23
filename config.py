@@ -7,6 +7,21 @@ def get_config():
 class HuynhConfig(object):
 
     def __init__(self):
+        '''
+        channels: the number of input sensor featuresn
+        s_win_size: window length of simple activity
+        c_win_size: the number of containing simple activities;
+            so the window length of complex activity is  (s_win_size * c_win_size)
+        s_labels_num: the number of simple activity labels
+        c_labels_num: the number of complex activity labels
+        batch_size: mini-batch size
+        max_lr: max learning rate
+        min_lr: min learning rate
+        decay_speed: learning rate decay speed
+        iter: iteration times
+        dataset: data_set path
+        test_point: the testing point
+        '''
         self.channels = 12
         self.f_num = self.channels
         self.s_win_size = 50

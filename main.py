@@ -6,9 +6,9 @@ import argparse
 import config
 
 if __name__=='__main__':
-    parser = argparse.ArgumentParser(description="Set the test day to split train and test data")
-    parser.add_argument('--test', type=int, default=0, help='Select the test day. Max num is 6')
-    parser.add_argument('--version', type=str, help='Model version')
+    parser = argparse.ArgumentParser(description="Activity Recognition using Deep Multi-task Learning")
+    parser.add_argument('--test', type=int, default=0, help='select the test day. Max num is 6')
+    parser.add_argument('--version', type=str, help='model version')
     parser.add_argument('--gpu', type=int, default=0, help='assign task to selected gpu')
     args = parser.parse_args()
 

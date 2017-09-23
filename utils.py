@@ -142,29 +142,6 @@ def scores(input, kernel_shape, bias_shape):
 
     return tf.matmul(input, weights) + bias
 
-def residual(x, in_channel, out_channel, is_training, norm):
-    """residual unit with 2 layers
-    convolution:
-        width filter: 1
-        height filter: 3
-    """
-    orig_x = x
-    with tf.variable_scope('conv1'):
-        conv1 = conv(x, [1, 3, in_channel, out_channel], [out_channel])
-        if norm:
-            conv1 = batch_norm(conv1, is_training)
-        relu1 = activation(conv1)
-    with tf.variable_scope('conv2'):
-        conv2 = conv(relu1, [1, 3, out_channel, out_channel], [out_channel])
-        if norm:
-            conv2 = batch_norm(conv2, is_training)
-    with tf.variable_scope('add'):
-        if in_channel != out_channel:
-            orig_x = conv(x, [1, 1, in_channel, out_channel], [out_channel])
-
-    return activation(conv2 + orig_x)
-
-
 def lstm_cell(size):
     # With the latest TensorFlow source code (as of Mar 27, 2017),
     # the BasicLSTMCell will need a reuse parameter which is unfortunately not
