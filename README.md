@@ -37,10 +37,10 @@ We preprocess the dataset by removing the unlabeled data and prune it into the p
 ### Comparison
 To evaluate the effectiveness of our model, we compare it with the following baseline methods. For fair comparison, all baseline methods set the sample lengths of simple and
 complex activities as the same as AROMA.
-<li>**STL.** STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
-<li>**DCNN.** DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
-<li>**DeepConvLSTM.** DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-<li>**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). Figure 3 shows recognition accuracies of these models and ours:
+<li>STL. STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
+<li>DCNN. DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
+<li>DeepConvLSTM. DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
+<li>TM. TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). Figure 3 shows recognition accuracies of these models and ours:
 ![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png "Figure 3")
 
 ## The structure of the project
@@ -49,10 +49,13 @@ complex activities as the same as AROMA.
 <li>joint_model.py: building and training the model
 <li> main.py: entrance of the project
 You can run main.py -h to get the args:
+
 ```
 python main.py -h
 ```
+
 Three args would be listed:
+
 ```
 optional arguments:
   -h, --help         show this help message and exit
@@ -61,8 +64,10 @@ optional arguments:
   --gpu GPU          assign task to selected gpu
 
 ```
+
 For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset
 Therefore, for example, you can run:
+
 ```
 python main.py --test 0 --version har-model --gpu 0
 ```
