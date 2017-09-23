@@ -44,12 +44,66 @@ complex activities as the same as AROMA.
 **STL.** STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
 **DCNN.** DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
 **DeepConvLSTM.** DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). TM firstly recognizes simple activities using a Naive Bayes based classifier. In this way, TM can obtain $l_c⁄l_s$ words for each document, and form a document-word matrix. Then TM applies a LDA topic model on this document-word matrix to learn a document-topic matrix, which shows the topic distributions of all documents.
+**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). TM firstly recognizes simple activities using a Naive Bayes based classifier. In this way, TM can obtain $l_c⁄l_s$ words for each document, and form a document-word matrix. Then TM applies a LDA topic model on this document-word matrix to learn a document-topic matrix, which shows the topic distributions of all documents. Figure 3 shows recognition accuracies of these models and ours:
+![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png)
 
-### How to run the code?
-The project structure:
+### The structure of the project
+<li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
+```
+class HuynhConfig(object):
 
+    def __init__(self):
+        '''
+        channels: the number of input sensor featuresn
+        s_win_size: window length of simple activity
+        c_win_size: the number of containing simple activities;
+            so the window length of complex activity is  (s_win_size * c_win_size)
+        s_labels_num: the number of simple activity labels
+        c_labels_num: the number of complex activity labels
+        batch_size: mini-batch size
+        max_lr: max learning rate
+        min_lr: min learning rate
+        decay_speed: learning rate decay speed
+        iter: iteration times
+        dataset: data_set path
+        test_point: the testing point
+        '''
+        self.channels = 12
+        self.f_num = self.channels
+        self.s_win_size = 50
+        self.c_win_size = 15
+        self.s_labels_num = 23
+        self.c_labels_num = 4
+        self.batch_size = 50
+        self.norm = False
+        self.max_lr = 0.0007
+        self.min_lr = 0.0001
+        self.decay_speed = 700
+        self.iter = 7501
+        self.dataset = "data/huynh.cp"
+        self.test_point = 100
+```
+<li> utils.py: containing commonly used functions in the project
+<li>joint_model.py: building and training the model
+<li> main.py: entrance of the project
+You can run main.py -h to get the args:
+```
+python main.py -h
+```
+Three args would be listed:
+```
+optional arguments:
+  -h, --help         show this help message and exit
+  --test TEST        select the test day. Max num is 6
+  --version VERSION  model version
+  --gpu GPU          assign task to selected gpu
 
+```
+For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset
+Therefore, for example, you can run:
+```
+python main.py -test 0 --version har-model --gpu 0
+```
 
 
 
