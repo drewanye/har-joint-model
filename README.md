@@ -37,48 +37,14 @@ We preprocess the dataset by removing the unlabeled data and prune it into the p
 ### Comparison
 To evaluate the effectiveness of our model, we compare it with the following baseline methods. For fair comparison, all baseline methods set the sample lengths of simple and
 complex activities as the same as AROMA.
-**STL.** STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
-**DCNN.** DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
-**DeepConvLSTM.** DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). Figure 3 shows recognition accuracies of these models and ours:
+<li>**STL.** STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
+<li>**DCNN.** DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
+<li>**DeepConvLSTM.** DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
+<li>**TM.** TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). Figure 3 shows recognition accuracies of these models and ours:
 ![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png "Figure 3")
 
 ## The structure of the project
 <li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
-```
-class HuynhConfig(object):
-
-    def __init__(self):
-        '''
-        channels: the number of input sensor featuresn
-        s_win_size: window length of simple activity
-        c_win_size: the number of containing simple activities;
-            so the window length of complex activity is  (s_win_size * c_win_size)
-        s_labels_num: the number of simple activity labels
-        c_labels_num: the number of complex activity labels
-        batch_size: mini-batch size
-        max_lr: max learning rate
-        min_lr: min learning rate
-        decay_speed: learning rate decay speed
-        iter: iteration times
-        dataset: data_set path
-        test_point: the testing point
-        '''
-        self.channels = 12
-        self.f_num = self.channels
-        self.s_win_size = 50
-        self.c_win_size = 15
-        self.s_labels_num = 23
-        self.c_labels_num = 4
-        self.batch_size = 50
-        self.norm = False
-        self.max_lr = 0.0007
-        self.min_lr = 0.0001
-        self.decay_speed = 700
-        self.iter = 7501
-        self.dataset = "data/huynh.cp"
-        self.test_point = 100
-```
 <li> utils.py: containing commonly used functions in the project
 <li>joint_model.py: building and training the model
 <li> main.py: entrance of the project
