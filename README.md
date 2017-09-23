@@ -40,8 +40,9 @@ complex activities as the same as AROMA.
 <li>STL. STL is the short form of single task learning. STL recognizes simple and complex activities separately. Forthe two tasks, STL utilizes the same network and parameters with AROMA. Differently, there is no shared structure between these two tasks, and the loss functions of two tasks are minimized separately.
 <li>DCNN. DCNN (Yang et al. 2015) is also a single task learning method that recognizes simple and complex activities using a deep convolutional neural network.
 <li>DeepConvLSTM. DeepConvLSTM (Ordónez and Roggen 2016) recognizes activities based on convolution operations and LSTM units.
-<li>TM. TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples). 
+<li>TM. TM stands for topic model. Referring to Huynh,Fritz, and Schiele (2008), TM treats a complex activity sample as a “document”, which is composed of a corpus of “words” (i.e., simple activity samples).
 The recognition accuracies of these models and ours:
+
 ![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png)
 
 ## The structure of the project
