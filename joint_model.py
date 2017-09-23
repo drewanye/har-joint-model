@@ -2,12 +2,12 @@ __author__ = 'zhenanye'
 
 import tensorflow as tf
 import utils
-import data
 import numpy as np
 import math
 import os
-import simple_activity
 from sklearn import utils as skutils
+import cPickle as cp
+
 
 class SimpleActivity:
 
@@ -94,7 +94,7 @@ class SimpleActivity:
 
 class JointModel(object):
 
-    def __init__(self, X, YS, YC, cfg, log_path, info_path, version=""):
+    def __init__(self, X, YS, YC, cfg, log_path, version=""):
 
         self.X = X
         self.YC = YC
@@ -114,20 +114,18 @@ class JointModel(object):
         self.learning_rate = tf.placeholder(dtype=tf.float32)
         self.is_training = tf.placeholder(dtype=tf.bool)
         self.log_path = log_path
-        self.info_path = info_path
         self.norm = cfg.norm
         self.prok = tf.placeholder(dtype=tf.float32)
         self.train_saved_dir = os.path.join("train", version)
 
     def load_data(self, test_day):
         print("Loading data.............")
-        u_dataset = self.config.dataset
-        x_train, y_s_train, y_c_train, x_test, y_s_test, y_c_test = \
-            u_dataset.get_train_test(test_day)
-        # dataset = data.OpportunityDataset('data/opp_locom_no_all_unlabeled.cp', self.config)
-        # train_data, test_data = dataset.load_data()
-        # x_train, y_s_train, y_c_train = train_data
-        # x_test, y_s_test, y_c_test = test_data
+        f = file(self.config.dataset, 'rb')
+        data = cp.load(f)
+        f.close()
+        data = data[test_day]
+        x_train, y_s_train, y_c_train = data[0]
+        x_test, y_s_test, y_c_test = data[1]
         self.x_train, self.y_s_train, self.y_c_train = skutils.shuffle(x_train, y_s_train, y_c_train, random_state=0)
         self.x_test, self.y_s_test, self.y_c_test = skutils.shuffle(x_test, y_s_test, y_c_test, random_state=0)
         print("Train and Test data shape:")
@@ -138,18 +136,14 @@ class JointModel(object):
             "y_s_test: {} ".format(self.y_s_test.shape) +\
             "y_c_test: {}".format(self.y_c_test.shape)
         )
-        # set different log and info path for diff test_days
+        # set different log for diff test_days
         self.log_path = self.log_path + "test{}/".format(test_day)
-        if not os.path.exists(self.info_path):
-            os.mkdir(self.info_path)
-        self.info_path = self.info_path + "test{}.txt".format(test_day)
 
     def next_batch(self):
         train_size = self.x_train.shape[0]
         scale = self.pos+self.batch_size
         if scale > train_size:
             a = scale-train_size
-            # print("batch range:{}->{}, 0->{}".format(self.pos, train_size, a))
             x1 = self.x_train[self.pos:]
             x2 = self.x_train[0:a]
             y_c1 = self.y_c_train[self.pos:]
@@ -159,7 +153,6 @@ class JointModel(object):
             self.pos = a
             return np.concatenate((x1, x2)), np.concatenate((y_c1, y_c2)), np.concatenate((y_s1, y_s2))
         else:
-            # print("batch range:{}->{}".format(self.pos, scale))
             x = self.x_train[self.pos:scale]
             y_c = self.y_c_train[self.pos:scale]
             y_s = self.y_s_train[self.pos:scale]
@@ -168,27 +161,20 @@ class JointModel(object):
 
     def build_model(self):
         x_serie_c = self.X
-        # x_serie_c = tf.reshape(self.X, [-1, self.c_win_size, self.s_win_size, self.f_num])
         xs_s = tf.split(x_serie_c, num_or_size_splits=self.config.c_win_size, axis=1)
         ys_s = tf.split(self.YS, num_or_size_splits=self.config.c_win_size, axis=1)
         concat_outputs = []
         self.losses = []
-        # self.train_steps = []
         self.accuracies = []
         self.correct_preds = []
-        w_n = len(xs_s)
         with tf.variable_scope('simple_activity') as scope:
             is_reuse = False
             for i, j in zip(xs_s, ys_s):
-                # sa = simple_activity.SimpleActivity(i, tf.reshape(j, [-1, self.s_labels_num]), self.config,
-                #             prok=self.prok, is_training=self.is_training, norm=self.norm)
                 sa = SimpleActivity(i, tf.reshape(j, [-1, self.s_labels_num]), self.config,
                                     is_training=self.is_training, norm=self.norm)
                 output, loss, accuracy, correct_pred_s = sa.build_model()
                 concat_outputs.append(output)
-                # concat_outputs += output
                 self.losses.append(loss)
-                # self.train_steps.append(step)
                 self.accuracies.append(accuracy)
                 self.correct_preds.append(correct_pred_s)
                 if not is_reuse:

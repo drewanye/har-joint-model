@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from nltk import word_tokenize
 import cPickle as cp
 import utils
+import config
 
 def one_hot(y_, n_values):
     return np.eye(n_values)[np.array(y_, dtype=np.int32)]
@@ -93,7 +94,7 @@ class HuynhDataset(DataSet):
                                        self.config.s_labels_num))
         yc_train = self._load_YC(YC_INPUT_PATHS)
 
-        return x_train, ys_train, yc_train, x_test, ys_test, yc_test
+        return (x_train, ys_train, yc_train), (x_test, ys_test, yc_test)
 
 class HuynhOriginalDataset(HuynhDataset):
 
@@ -445,20 +446,14 @@ def split_train_test(x, ys, yc):
 
 
 
-# if __name__ == '__main__':
-    # x = load_X(X_INPUT_PATHS)
-    # print(x.shape)
-    # ys = load_YS(YS_INPUT_PATHS)
-    # # print(len(ys))
-    # print("simple activity shape: {}".format(ys.shape))
-    # yc = load_YC(YC_INPUT_PATHS)
-    # print(len(yc))
-    # print("complex activity shape: {}".format(yc.shape))
-    #
-    # xt, yst, yct, xet, yset, ycet = split_train_test(x, ys, yc)
-    # print("x train: {}".format(xt.shape))
-    # print("ys train: {}".format(yst.shape))
-    # print("yc train: {}".format(yct.shape))
-    # print("x test: {}".format(xet.shape))
-    # print("ys test: {}".format(yset.shape))
-    # print("yc test: {}".format(ycet.shape))
+if __name__ == '__main__':
+    cfg = config.get_config()
+    u_dataset = cfg.dataset
+    objs = []
+    target_dir = "data/hunhy_new.cp"
+    for i in range(0, 7):
+        train, test = u_dataset.get_train_test(i)
+        objs.append([train, test])
+    f = file(target_dir, 'wb')
+    cp.dump(objs, f, protocol=cp.HIGHEST_PROTOCOL)
+    f.close()
