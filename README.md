@@ -27,8 +27,9 @@ We use a public activity recognition dataset in our experiment: Huynh dataset (H
 |  type |   |
 |--------|--------|
 |    Simple Activities    |   sitting/ desk activities, lying while reading/ using computer, having dinner, walking freely,driving car, having lunch, discussing at whiteboard, attending a presentation, driving bike, watching a movie, standing/ talking on phone, walking while carrying something, walking, picking up cafeteria food, sitting/ having a coffee, queuing in line, personal hygiene, using the toilet, fanning barbecue, washing dishes, kneeling/ doing something else, sitting/ talking on phone, kneeling/ making fire for barbecue, setting the table, standing/ having a coffee, preparing food, having breakfast, brushing teeth, standing/ using the toilet, standing/ talking, washing hands, making coffee, running,and wiping the whiteboard |
-| Complex Activities| dinner activities, commuting, lunch routine, office work|
-We preprocess the dataset by removing the unlabeled data and prune it into the proper window size, which can be downloaded at [huynh.cp](https://pan.baidu.com/s/1c270xTu). The dataset path has to be appointed in config.py:
+| Complex Activities| dinner activities, commuting, lunch routine, office work |
+
+We preprocess the dataset by removing the unlabeled data and prune it into the proper window size, which can be downloaded at [huynh.cp] (https://pan.baidu.com/s/1c270xTu). The dataset path has to be appointed in config.py:
 ```
         self.dataset = "huynh/dataset/path"
 
