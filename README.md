@@ -13,10 +13,11 @@ Our model AROMA recognizes simple and complex activities simultaneously. It divi
 ![definition](https://github.com/drewanye/har-joint-model/blob/master/diagram/definition.png)
 
 ### Simple Activity Recognition Task
-Our model uses deep convolutional neural networks (CNN) to learn deep features. Since deeper networks are not able to achieve expected performance, we apply the ResNet proposed by He et al(2016) to our model. The architecture is showed in Figure 2
+Our model uses deep convolutional neural networks (CNN) to learn deep features. Since deeper networks are not able to achieve expected performance, we apply the ResNet proposed by He et al(2016) to our model. The architecture of simple acitivity recognition task:
+![simple-activity](https://github.com/drewanye/har-joint-model/blob/master/diagram/simple-acitivty.png)
 
 ### Complex Activity Recognition Task
-Our model applies a LSTM network to implement complex activity recognition task. Figure 3 shows the workflow of complex activity recognition task. We adopt a three-layer LSTM network. As we know, within a single complex activity sample, there are $l_c/l_s$ simple activity samples. The output of the previous LSTM unit is inputted to the next unit. In this way, the temporal context of complex activities can be learnt.
+Our model applies a LSTM network to implement complex activity recognition task. Figure 3 shows the workflow of complex activity recognition task. We adopt a three-layer LSTM network. As we know, within a single complex activity sample, there are lc/ls simple activity samples. The output of the previous LSTM unit is inputted to the next unit. In this way, the temporal context of complex activities can be learnt.
 The input of the first layer is the simple activity feature representations after fully connected. It is also a shared representation between simple and complex activity recognition tasks. The output of the LSTM network is served as the input of a softmax classifier, which predicts complex activity labels.
 
 ### Multi-task learning
@@ -52,6 +53,7 @@ The recognition accuracies of these models and ours:
 <li> utils.py: containing commonly used functions in the project
 <li>joint_model.py: building and training the model
 <li> main.py: entrance of the project
+
 You can run main.py -h to get the args:
 
 ```
