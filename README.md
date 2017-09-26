@@ -47,6 +47,7 @@ The recognition accuracies of these models and ours:
 ![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png)
 
 ## The structure of the project
+<li> TensorFlow version: 1.2.1
 <li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
 <li> utils.py: containing commonly used functions in the project
 <li>joint_model.py: building and training the model
