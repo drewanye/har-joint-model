@@ -68,8 +68,7 @@ optional arguments:
   --gpu GPU          assign task to selected gpu
 ```
 
-For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset
-Therefore, for example, you can run:
+For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset. Therefore, for example, you can run:
 
 ```
 python main.py --test 0 --version har-model --gpu 0
