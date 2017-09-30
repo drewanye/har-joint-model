@@ -3,6 +3,35 @@
 ## Introduction
 In activity recognition, simple and complex activity recognition are a pair of related tasks. Simple acitvities are usually characterized by repeated and low-level actions, e.g., runing, sitting, and walking. Compared to simple activities, complex activities are more complicated and high-level  activities like working, having dinner, commuting. And a complex activity may include several low-level simple activities. For instance, having dinner, a kind of complex activity, can include standing and walking to select food and sitting at the table to eat, the simple activities. In other words, simple activities can be regarded as the components of complex activity. In our model called AROMA, we use multi-task learning to recognize simple and complex activities simultaneously by using a shared representation to improve generalization and accuracy of the model.(Our paper "AROMA: A deep multi-task learning based simple and complex activity recognition method using wearable sensors" has been submitted into 2017 AAAI)
 
+## The structure of the project
+<li> Requirements: TensorFlow 1.2.1, Python 2.7
+<li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
+<li> utils.py: containing commonly used functions in the project
+<li>joint_model.py: building and training the model
+<li> main.py: entrance of the project
+
+You can run main.py -h to get the args:
+
+```
+python main.py -h
+```
+
+Three args would be listed:
+
+```
+optional arguments:
+  -h, --help         show this help message and exit
+  --test TEST        select the test day. Max num is 6
+  --version VERSION  model version
+  --gpu GPU          assign task to selected gpu
+```
+
+For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset. Therefore, for example, you can run:
+
+```
+python main.py --test 0 --version har-model --gpu 0
+```
+
 ## Methodology
 Our model AROMA recognizes simple and complex activities simultaneously. It divides raw sensor data to fixed length time windows. Since complex activities usually last for a longer duration than simple activities, each complex activity sample contains multiple simple activity samples. For each simple activity sample, AROMA utilizes a CNN to extract deep features, which are inputted into a simple activity classifier directly. For each complex activity sample, apart from CNN, AROMA also applies a LSTM network to learn the temporal context of activity data. Simple and complex activity recognition are two tasks in this work. The two tasks have the same input and share representations (the red squares):
 ![Figure 1](https://github.com/drewanye/har-joint-model/blob/master/diagram/har-joint-model.png)
@@ -45,43 +74,5 @@ complex activities as the same as AROMA.
 The recognition accuracies of these models and ours:
 
 ![Figure 3](https://github.com/drewanye/har-joint-model/blob/master/diagram/experiment_results.png)
-
-## The structure of the project
-<li> TensorFlow version: 1.2.1
-<li> config.py:  containing parameters the model will use, like window length of simple activity and complex activity, training parameters e.g., batch size, learning rate decay speed.
-<li> utils.py: containing commonly used functions in the project
-<li>joint_model.py: building and training the model
-<li> main.py: entrance of the project
-
-You can run main.py -h to get the args:
-
-```
-python main.py -h
-```
-
-Three args would be listed:
-
-```
-optional arguments:
-  -h, --help         show this help message and exit
-  --test TEST        select the test day. Max num is 6
-  --version VERSION  model version
-  --gpu GPU          assign task to selected gpu
-```
-
-For Leave-one-out cross-validation, the "test" option should be assigned to test one day data in the dataset. Therefore, for example, you can run:
-
-```
-python main.py --test 0 --version har-model --gpu 0
-```
-
-
-
-
-
-
-
-
-
 
 
