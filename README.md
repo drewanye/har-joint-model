@@ -1,8 +1,9 @@
 ## AROMA: A Deep Multi-Task Learning Based Simple and Complex Human Activity Recognition Method Using Wearable Sensors
 
 ![architecture](diagram/har-joint-model.jpg)
+
 This is the implementation of our paper "A Deep Multi-Task Learning Based Simple and Complex Human Activity Recognition Method Using Wearable Sensors". This work has been accepted by Ubicomp 2018.
-<br>
+
 ![shared network](diagram/simple-acitivty.png)
 
 
@@ -13,7 +14,6 @@ This is the implementation of our paper "A Deep Multi-Task Learning Based Simple
 <li>joint_model.py: building and training the model
 <li> main.py: entrance of the project
 
-We preprocess the dataset by removing the unlabeled data and prune it into the proper window size, which can be downloaded at huynh.cp. 
 You can run main.py -h to get the args:
 
 ```
