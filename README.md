@@ -2,7 +2,7 @@
 
 ![architecture](diagram/har-joint-model.jpg)
 
-This is the implementation of our paper "A Deep Multi-Task Learning Based Simple and Complex Human Activity Recognition Method Using Wearable Sensors". This work has been accepted by Ubicomp 2018.
+This is the implementation of our paper "AROMA: A Deep Multi-Task Learning Based Simple and Complex Human Activity Recognition Method Using Wearable Sensors". This work has been accepted by Ubicomp 2018.
 
 ![shared network](diagram/simple-acitivty.png)
 
